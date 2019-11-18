@@ -21,6 +21,8 @@ package st.qpo.android;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,5 +36,18 @@ public class MainActivity extends AppCompatActivity {
         this.setTheme(R.style.AppTheme);
         this.setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        this.startWebViewClient((WebView) this.findViewById(R.id.webView));
+    }
+
+    private void startWebViewClient(WebView webView) {
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setAllowFileAccess(true);
+
+        final String startURL = "https://qpo.st";
+        final String scope = "";
+        webView.setWebViewClient(new QWebViewClient(startURL, scope));
+        webView.loadUrl(startURL);
     }
 }
