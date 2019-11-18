@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         this.setTitle("qpost");
-        this.setTheme(R.style.AppTheme);
+        this.setTheme(R.style.FullscreenTheme);
         this.setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
