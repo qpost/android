@@ -28,7 +28,7 @@ import java.net.URL;
 import java.util.regex.Pattern;
 
 public class QWebViewClient extends WebViewClient {
-    private Pattern scopePattern;
+    private Pattern[] scopePatterns;
 
     public QWebViewClient(String startURL, String scope) {
         try {
@@ -39,7 +39,10 @@ public class QWebViewClient extends WebViewClient {
                 scopeURL = new URL(scopeURL, "*");
             }
 
-            this.scopePattern = this.regexFromPattern(scopeURL.toString());
+            this.scopePatterns = new Pattern[]{
+                    this.regexFromPattern(scopeURL.toString()),
+                    this.regexFromPattern("https://gigadrivegroup.com/*")
+            };
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +60,15 @@ public class QWebViewClient extends WebViewClient {
     }
 
     private boolean scoped(String url) {
-        return this.scopePattern == null || this.scopePattern.matcher(url).matches();
+        if (this.scopePatterns == null) return true;
+
+        for (Pattern scopePattern : this.scopePatterns) {
+            if (scopePattern.matcher(url).matches()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private Pattern regexFromPattern(String pattern) {
